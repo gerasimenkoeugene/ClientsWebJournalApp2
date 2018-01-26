@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>List Clients</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+        <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
+              th:href="@{/webjars/bootstrap/3.3.5/css/bootstrap.min.css}"
+              rel="stylesheet" media="screen"/>
+
+        <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
+                th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+
+    </head>
+    <body>
+        <div class="container">
+            <div th:if="${not #lists.isEmpty(clients)}">
+                <h2>Client List</h2>
+                <table class="table table-striped">
+                    <tr>
+                        <th>Id</th>
+                        <th>Client Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>List</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                    <tr th:each="client : ${clients}">
+                        <td th:text="${client.id}"></td>
+                        <td th:text="${client.name}"></td>
+                        <td th:text="${client.email}"></td>
+                        <td th:text="${client.phone}"></td>
+                        <td><a th:href="${'/client/show/' + client.id}">View</a> </td>
+                        <td><a th:href="${'/client/edit/' + client.id}">Edit</a> </td>
+                        <td><a th:href="${'/client/delete/' + client.id}">Delete</a> </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <a href="/client/new">New client</a>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>
