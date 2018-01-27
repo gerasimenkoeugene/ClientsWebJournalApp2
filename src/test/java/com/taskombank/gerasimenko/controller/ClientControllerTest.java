@@ -4,9 +4,7 @@ import com.taskombank.gerasimenko.entity.Client;
 import com.taskombank.gerasimenko.service.ClientService;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -16,7 +14,7 @@ import java.util.List;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -80,5 +78,27 @@ public class ClientControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("client/clientform"))
                 .andExpect(model().attribute("client", instanceOf(Client.class)));
+    }
+
+    @Test
+    public void testSaveOrUpdate() throws Exception {
+        String name = "Test Client";
+        String email = "testcliet@gmail.com";
+        String phoneNumber = "111-111-1111";
+
+        mockMvc.perform(post("/client/")
+                .param("id", "")
+                .param("name", name)
+                .param("email", email)
+                .param("phoneNumber", phoneNumber))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/client/list"));
+    }
+
+    @Test
+    public void deleteClient() throws Exception {
+        mockMvc.perform(delete("/client/delete/1"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/client/list"));
     }
 }
